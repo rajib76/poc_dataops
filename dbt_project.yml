@@ -24,6 +24,12 @@ clean-targets:         # directories to be removed by `dbt clean`
     - "target"
     - "dbt_modules"
 
+on-run-start:
+    - "alter session set query_tag='{{model['alias']}}'"
+    - "create table if not exists {{ target.schema }}.audit_dbt_results (node text, status text, execution_time decimal(10,2), time timestamp)"
+on-run-end:
+    - "insert into {{ target.schema }}.audit_dbt_results (node, status, execution_time, time) values {{ results_values(results) }}"
+    - "commit"
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models

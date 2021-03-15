@@ -1,0 +1,28 @@
+# https://docs.getdbt.com/docs/guides/writing-custom-schema-tests 
+version: 2
+
+models:
+  - name: asset_point_camera
+    columns:
+      - name: assetid
+        tests:
+          - unique
+          - not_null
+          - relationships:
+              to: ref('asset_management_inspection_log')
+              field: assetid
+      - name: utilityid
+      - name: assettype
+      - name: makeand manufacturer
+      - name: modelnumber
+  - name: core_camera_inspection
+    columns:
+      - name: assetid
+        tests:
+          - unique
+          - not_null
+      - name: assettype
+        tests:
+          - accepted_values:
+              values: ['CAMERA']
+    
