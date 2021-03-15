@@ -1,1 +1,0 @@
-{{create_table(operation='ALTER',col='TEST',datatype='VARCHAR')}}
