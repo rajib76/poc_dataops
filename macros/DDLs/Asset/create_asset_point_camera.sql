@@ -1,4 +1,3 @@
-{% # Create the asset camera table %}
 {% macro create_asset_point_camera() %}
 {% set drop_table ="Y" %}
 
