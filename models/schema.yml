@@ -1,23 +1,37 @@
 # https://docs.getdbt.com/docs/guides/writing-custom-schema-tests 
 version: 2
 
+sources:
+  - name: dbt_poc_project
+    schema: ADMCOE_CORE
+    tables:
+      - name: asset_point_camera
+        # meta fields are rendered in auto-generated documentation
+        meta:
+          contains_pii: true
+          owner: "@alice"
+        columns: 
+          - name: assetid
+            tests:
+              - unique
+              - not_null
+              - relationships:
+                  to: ref('asset_management_inspection_log')
+                  field: assetid          
+            meta:
+              contains_pii: true
+          - name: utilityid
+          - name: assettype
+          - name: makeand manufacturer
+          - name: modelnumber
+      - name: asset_management_inspection_log
+
 models:
-  - name: asset_point_camera
-    columns:
-      - name: assetid
-        tests:
-          - unique
-          - not_null
-          - relationships:
-              to: ref('asset_management_inspection_log')
-              field: assetid
-      - name: utilityid
-      - name: assettype
-      - name: makeand manufacturer
-      - name: modelnumber
   - name: core_camera_inspection
     columns:
       - name: assetid
+        tags:
+          - pii
         tests:
           - unique
           - not_null

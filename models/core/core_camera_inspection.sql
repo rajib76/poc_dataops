@@ -5,13 +5,13 @@
 {# config(materialized= "table", unique_key= "assetid" ) #}
 with asset_cameras as (
 
-    select * from {{ref('asset_point_camera')}}
+    select * from {{ source('dbt_poc_project', 'asset_point_camera') }} 
 
 ) ,
 
 asset_inspections as (
 
-    select * from {{ref('asset_management_inspection_log')}}
+    select * from {{ source('dbt_poc_project', 'asset_management_inspection_log') }} 
 
 ) ,
 
